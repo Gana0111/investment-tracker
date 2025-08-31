@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investment Portfolio Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Investment Portfolio Tracker</h1>
+      <p>Track your mutual fund investments with detailed holdings analysis</p>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab-button active" onclick="showTab('input')">Input</button>
+      <button class="tab-button" onclick="showTab('output')">Holdings</button>
+      <button class="tab-button" onclick="showTab('analysis')">Analysis</button>
+    </nav>
+
+    <!-- Input Tab -->
+    <div id="input" class="tab-content active">
+      <div class="input-section">
+        <h2>Add Investment Data</h2>
+        <div class="input-form">
+          <input type="url" id="fundUrl" placeholder="Enter Groww mutual fund URL" required>
+          <input type="number" id="investmentAmount" placeholder="Investment amount (₹)" min="1" required>
+          <button onclick="addInvestment()">Add Investment</button>
+        </div>
+
+        <div class="investment-list">
+          <h3>Your Investments</h3>
+          <table id="investmentTable">
+            <thead>
+              <tr>
+                <th>Fund URL</th>
+                <th>Investment Amount (₹)</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div class="action-buttons">
+          <button class="primary-btn" onclick="runFullUpdate()">Run Full Update</button>
+          <button class="secondary-btn" onclick="clearAllData()">Clear All</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Output Tab -->
+    <div id="output" class="tab-content">
+      <div class="output-section">
+        <h2>Holdings Data</h2>
+        <div class="summary-stats">
+          <div class="stat-card">
+            <h3 id="totalInvestment">₹0</h3>
+            <p>Total Investment</p>
+          </div>
+          <div class="stat-card">
+            <h3 id="totalEquity">₹0</h3>
+            <p>Equity Holdings</p>
+          </div>
+          <div class="stat-card">
+            <h3 id="cashHolding">₹0</h3>
+            <p>Cash Holdings</p>
+          </div>
+        </div>
+
+        <div class="holdings-table-container">
+          <table id="holdingsTable">
+            <thead>
+              <tr>
+                <th>Fund Name</th>
+                <th>Company Name</th>
+                <th>Sector</th>
+                <th>Instrument</th>
+                <th>Assets %</th>
+                <th>Your Investment Value (₹)</th>
+                <th>Last Updated</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <button class="export-btn" onclick="exportToCSV()">Export to CSV</button>
+      </div>
+    </div>
+
+    <!-- Analysis Tab -->
+    <div id="analysis" class="tab-content">
+      <div class="analysis-section">
+        <h2>Portfolio Analysis</h2>
+
+        <div class="charts-container">
+          <div class="chart-wrapper">
+            <h3>Investment by Sector</h3>
+            <canvas id="sectorChart"></canvas>
+          </div>
+
+          <div class="chart-wrapper">
+            <h3>Top 10 Companies</h3>
+            <canvas id="companiesChart"></canvas>
+          </div>
+        </div>
+
+        <div class="top-companies">
+          <h3>Top 50 Companies by Investment</h3>
+          <table id="companiesTable">
+            <thead>
+              <tr>
+                <th>Company Name</th>
+                <th>Total Investment (₹)</th>
+                <th>% of Portfolio</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <button class="export-btn" onclick="generatePDFReport()">Generate PDF Report</button>
+      </div>
+    </div>
+
+    <div class="loading" id="loading" style="display: none;">
+      <div class="spinner"></div>
+      <p>Fetching investment data...</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
